@@ -46,19 +46,21 @@ const StudentPollPage = () => {
     }
   };
 
-  useEffect(() => {
-    const handleKickedOut = () => {
-      setKickedOut(true);
-      sessionStorage.removeItem("username");
-      navigate("/kicked-out");
-    };
+ useEffect(() => {
+  const handleKickedOut = (data) => {
+    alert(data.message); // optional: show alert
+    setKickedOut(true);
+    sessionStorage.removeItem("username");
+    navigate("/kicked-out");
+  };
 
-    socket.on("kickedOut", handleKickedOut);
+  socket.on("kickedOut", handleKickedOut);
 
-    return () => {
-      socket.off("kickedOut", handleKickedOut);
-    };
-  }, [navigate]);
+  return () => {
+    socket.off("kickedOut", handleKickedOut);
+  };
+}, [navigate]);
+
 
   useEffect(() => {
     socket.on("pollCreated", (pollData) => {
